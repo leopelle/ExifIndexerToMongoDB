@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucini photo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+</head>
+
+<body>
+    <div class="photo-gallery" id="app">
+        <div class="container">
+            <div class="intro">
+                <h2 class="text-center">Lucini photo</h2>
+                <p class="text-center"><input v-model="search" placeholder="edit me"><button v-on:click="find">Find</button></p>
+            </div>
+            <div class="row photos">
+                <div class="col-sm-6 col-md-4˘ col-lg-3 item" v-for="item in items">
+                    <a v-bind:href="'/sample/' + item.filename" data-lightbox="photos"
+                        v-bind:alt="item.subject.description">
+                        <img class="img-fluid" v-bind:src="'data:image/png;base64,' + item.Thumbnail.base64"
+                            v-bind:title="item.subject.description">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                search: '',
+                items: []
+            }, /*mounted() {
+                axios
+                    .get('http://localhost:3000/getphotos?search=cremona')
+                    .then(response => (this.items = response.data))
+            }, */methods: {
+                find: function (event) {
+                    axios
+                        .get('http://localhost:3000/getphotos?search=' + this.search)
+                        .then(response => (this.items = response.data))
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My first Vue app</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        {{ message }}
+        <ul id="example-2">
+            <li v-for="item in items">
+                <img v-bind:src="'data:image/png;base64,' + item.Thumbnail.base64" />
+            </li>
+          </ul>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!',
+                items: []
+            }, mounted() {
+                axios
+                    .get('http://localhost:3000/getphotos?search=cremona')
+                    .then(response => (this.items = response.data))
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="jumbotron text-center">
+    <h1>Lucini foto archivio</h1>
+    <p>This is a responsive page! You can resize the page to see affect!</p>
+  </div>
+
+  <div class="container" id="app">
+    <div class="row">
+      <div class="col-lg-3 col-md-4 col-6" v-for="item in items">
+        <a v-bind:href="'/sample/' + item.filename" target="_blank" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" v-bind:src="'data:image/png;base64,' + item.Thumbnail.base64"
+            v-bind:title="item.description.description" />
+        </a>
+      </div>
+    </div>
+  </div>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+        items: []
+      }, mounted() {
+        axios
+          .get('http://localhost:3000/getphotos?search=cremona')
+          .then(response => (this.items = response.data))
+      }
+    })
+  </script>
+</body>
+
+</html>
